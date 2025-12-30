@@ -7,6 +7,7 @@ class Qk < Formula
 
   def install
     libexec.install Dir["*"]
+    system "bun", "install", "--production", chdir: libexec
     (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{HOMEBREW_PREFIX}/bin:$PATH"
     chmod 0755, bin/"qk"
   end
