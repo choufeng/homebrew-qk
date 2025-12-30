@@ -8,13 +8,14 @@ class Qk < Formula
   def install
     libexec.install Dir["*"]
     
-    # Set PATH to include common bun installation locations
-    ENV.prepend_path "PATH", "#{Dir.home}/.bun/bin"
+    # Use absolute path to bun if available
+    bun_path = which("bun") || "#{Dir.home}/.bun/bin/bun"
+    raise "bun not found. Please install bun: curl -fsSL https://bun.sh/install | bash" unless File.exist?(bun_path)
     
     cd libexec do
-      system "bun", "install", "--production"
+      system bun_path, "install", "--production"
     end
-    (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{Dir.home}/.bun/bin:$PATH"
+    (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{File.dirname(bun_path)}:$PATH"
     chmod 0755, bin/"qk"
   end
 
