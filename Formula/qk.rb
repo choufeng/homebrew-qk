@@ -5,12 +5,17 @@ class Qk < Formula
   sha256 "91c566f6a558771a41fb49a478048a819939ded69ba62fbcdad1e220ba93b0f8"
   license "MIT"
 
-  depends_on "bun"
-
   def install
     libexec.install Dir["*"]
-    (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{Formula["bun"].opt_bin}:$PATH"
+    (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{HOMEBREW_PREFIX}/bin:$PATH"
     chmod 0755, bin/"qk"
+  end
+
+  def caveats
+    <<~EOS
+      This formula requires bun to be installed.
+      Install bun with: curl -fsSL https://bun.sh/install | bash
+    EOS
   end
 
   test do
