@@ -8,14 +8,28 @@ class Qk < Formula
   def install
     libexec.install Dir["*"]
     
-    # Use absolute path to bun if available
-    bun_path = which("bun") || "#{Dir.home}/.bun/bin/bun"
-    raise "bun not found. Please install bun: curl -fsSL https://bun.sh/install | bash" unless File.exist?(bun_path)
-    
-    cd libexec do
-      system bun_path, "install", "--production"
+    # Check if bun is available in system PATH
+    bun_path = which("bun")
+    if bun_path
+      cd libexec do
+        system bun_path, "install", "--production"
+      end
+    else
+      # If bun is not available, assume dependencies are pre-installed
+      # User needs to have bun installed in their PATH
+      ohai "Warning: bun not found during install. Dependencies may not be installed."
     end
-    (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{File.dirname(bun_path)}:$PATH"
+    
+    # Create wrapper script that will use bun from user's PATH
+    (bin/"qk").write <<~EOS
+      #!/bin/bash
+      if command -v bun &> /dev/null; then
+        exec bun "#{libexec}/cli.mjs" "$@"
+      else
+        echo "Error: bun not found. Please install bun: curl -fsSL https://bun.sh/install | bash"
+        exit 1
+      fi
+    EOS
     chmod 0755, bin/"qk"
   end
 
