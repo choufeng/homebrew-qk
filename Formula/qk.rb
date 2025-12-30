@@ -11,7 +11,9 @@ class Qk < Formula
     # Set PATH to include common bun installation locations
     ENV.prepend_path "PATH", "#{Dir.home}/.bun/bin"
     
-    system "bun", "install", "--production", chdir: libexec
+    cd libexec do
+      system "bun", "install", "--production"
+    end
     (bin/"qk").write_env_script libexec/"cli.mjs", PATH: "#{Dir.home}/.bun/bin:$PATH"
     chmod 0755, bin/"qk"
   end
