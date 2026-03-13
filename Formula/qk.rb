@@ -1,8 +1,8 @@
 class Qk < Formula
   desc "QK CLI - A powerful command-line tool built with ZX and Commander.js"
   homepage "https://github.com/choufeng/qk"
-  url "https://github.com/choufeng/qk/archive/refs/tags/v1.7.0.tar.gz"
-  sha256 "23801f690d8da09d5bc5b506d0fad29784cd1c5e64fa4528aca0a5fbd57f63d2"
+  url "https://github.com/choufeng/qk/archive/refs/tags/v1.7.1.tar.gz"
+  sha256 "510f4beb86fd042f06dc374cede3c7d062978f44365288f25afcba1d5df7f964"
   license "MIT"
 
   def install
