@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": "allow",
+    "read": "allow",
+    "edit": "allow",
+    "skill": {
+      "homebrew-bump": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "prompt": "You are a coding assistant. When user asks to update Homebrew formula (like \"update qk\", \"bump homebrew\", \"update homebrew formula\"), use the homebrew-bump skill to complete the task. The skill is located at ~/.claude/skills/homebrew-bump/SKILL.md"
+    }
+  }
+}
